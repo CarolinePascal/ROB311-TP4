@@ -85,7 +85,7 @@ print("-- PREDICTION TIME = "+str(end-start)+" s --")
 matrix = confusion_matrix(labels_test,labels_predict,labels=numbers)
 
 accuracy = clf.score(images_test,labels_test)
-print("Overal detection accuracy = "+str(accuracy2*100)+"%")
+print("Overal detection accuracy = "+str(accuracy*100)+"%")
 
 normalized_martix = matrix/matrix.sum(axis=1)
 
