@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import random as rd
+import time
 
 numbers = ['0','1','2','3','4','5','6','7','8','9']
 
@@ -43,36 +44,48 @@ def plot_labels_repartition(labels,labels_array,title = "Histogram",cmap=plt.cm.
     plt.ylabel('Occurences')
     plt.xlabel('Labels')
     
-    
+start = time.time() 
 labels_train,images_train = load_data('mnist_train.csv')
+end = time.time()
 print("-- TRAIN DATA LOADED --")
+print("-- LOAD TIME = "+str(end-start)+" s --")
 
 plt.figure()
 plot_labels_repartition(numbers,labels_train)
 plt.show()
 
+start = time.time()
 labels_test,images_test = load_data('mnist_test.csv')
+end = time.time()
 print("-- TEST DATA LOADED --")
+print("-- LOAD TIME = "+str(end-start)+" s --")
 
 plt.figure()
 plot_labels_repartition(numbers,labels_test)
 plt.show()
 
 clf = svm.SVC(gamma = 'scale')
-clf.fit(images_train,labels_train)
-
-print("-- TRAINING OK --")
-print("Training result :")
+print("-- MODEL PARAMETERS --")
 print(clf)
 
+start = time.time()
+clf.fit(images_train,labels_train)
+end = time.time()
+
+print("-- TRAINING OK --")
+print("-- TRAINING TIME = "+str(end-start)+" s --")
+
+start = time.time()
 labels_predict = clf.predict(images_test)
+end = time.time()
 
 print("-- PREDICTION OK --")
+print("-- PREDICTION TIME = "+str(end-start)+" s --")
 
 matrix = confusion_matrix(labels_test,labels_predict,labels=numbers)
 
-accuracy = np.trace(matrix)/np.sum(matrix)
-print("Overal detection accuracy = "+str(accuracy*100)+"%")
+accuracy = clf.score(images_test,labels_test)
+print("Overal detection accuracy = "+str(accuracy2*100)+"%")
 
 normalized_martix = matrix/matrix.sum(axis=1)
 
